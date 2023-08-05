@@ -4,11 +4,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Light Roboto font on all text */
 * {
 	font-family: "Roboto", sans-serif;
 	font-weight: 300;
 }
 
+/* Light gray background color */
 body {
 	background-color: #f2f2f2;
 }

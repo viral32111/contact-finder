@@ -1,33 +1,28 @@
-// The filter should contain the total number of contacts, and an order by drop-down.
-
+import { useState } from "react"
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { useState } from "react"
 
-export interface Contact {
-	fullName: string
-	mobileNumber: string
-	landlineNumber: string
-	emailAddress: string
-	homeAddress: {
-		houseNumber: number
-		streetName: string,
-		cityName: string,
-		countryName: string,
-		postCode: string,
-	}
-	pictureUrl: string
-	isFavourited: boolean
-}
+import { ContactInfo } from "../contact"
 
+/**
+ * Attributes for the contact component.
+ * Includes the contact information itself & a callback for when the favourite check-box changes.
+ */
 interface ContactAttributes {
-	data: Contact
+	data: ContactInfo
 	onFavouriteChange: ( state: boolean ) => void
 }
 
+/**
+ * Component for displaying a single contact.
+ * Should contain all the information for a contact & including a check-box for favouriting, in a collapsable box.
+*/
 export const Contact: React.FC<ContactAttributes> = ( { data, onFavouriteChange } ) => {
+
+	// State for collapsing the box.
 	const [ isCollapsed, setIsCollapsed ] = useState( true )
 
+	// Render the contact information.
 	return <div className="p-5 relative shadow-md bg-white text-gray-600">
 		<div className="flex items-center">
 			<img className="w-16 h-16 rounded-full mr-4" src={ data.pictureUrl } alt={ data.fullName } />

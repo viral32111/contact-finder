@@ -1,23 +1,37 @@
 import { useEffect, useState } from "react"
-import { Contact } from "./contact"
+
 import { fetchRandomUsers } from "../randomUser"
+import { ContactInfo } from "../contact"
+
+import { Contact } from "./contact"
 import { OrderBy } from "../orderBy"
 
-// The container holds the contacts.
-
+/**
+ * Attributes for the container component.
+ * Includes passed down state for contacts, ordering & favouriting.
+ */
 interface ContainerAttributes {
-	contacts: Contact[]
-	setContacts: ( contacts: Contact[] ) => void
+	contacts: ContactInfo[]
+	setContacts: ( contacts: ContactInfo[] ) => void
+
 	orderBy: OrderBy
+
 	setIsFavourited: ( index: number, state: boolean ) => void
 }
 
+/**
+ * Component for containing all the contacts.
+ * Doesn't have any of its own UI, just acts as a parent for the contact components.
+ */
 export const Container: React.FC<ContainerAttributes> = ( { contacts, setContacts, orderBy, setIsFavourited } ) => {
+
+	// State for displaying a loading message while the contacts are being fetched.
 	const [ isLoading, setIsLoading ] = useState( true )
 
+	// Fetches random users from the API to use as contacts, after the component is rendered.
 	useEffect( () => {
-		fetchRandomUsers( 10 ).then( users => {
-			const contacts: Contact[] = users.map( user => ( {
+		fetchRandomUsers( 250 ).then( users => {
+			setContacts( users.map( user => ( {
 				fullName: `${ user.name.first } ${ user.name.last }`,
 				mobileNumber: user.cell,
 				landlineNumber: user.phone,
@@ -31,25 +45,28 @@ export const Container: React.FC<ContainerAttributes> = ( { contacts, setContact
 				},
 				pictureUrl: user.picture.large,
 				isFavourited: false
-			} ) )
+			} ) ) )
 
-			setContacts( contacts )
 		} ).catch( error => {
-			alert( "Failed to fetch random users!" )
+			alert( "Unable to fetch contacts! See the console for more details." ) // Not ideal, but it works for demo.
 			console.error( "Failed to fetch random users! (%s)", error )
+
 		} ).finally( () => {
 			setIsLoading( false )
 		} )
 	}, [ setContacts ] )
 
+	// Sort the contacts based on the selected ordering.
+	// Name is alphabetical (A to Z) while mobile number is numerical (0 to 9).
 	contacts.sort( ( a, b ) => {
 		switch ( orderBy ) {
 			case OrderBy.name: return a.fullName.localeCompare( b.fullName )
-			case OrderBy.mobileNumber: return parseInt( a.mobileNumber ) - parseInt( b.mobileNumber )
-			default: return 0
+			case OrderBy.mobileNumber: return parseInt( a.mobileNumber ) - parseInt( b.mobileNumber ) // Numbers are stored as strings to preserve leading zeros, so conversion is required.
+			default: return 0 // New options may be added in the future that we haven't accounted for, so we'll just return 0 (retain original ordering) to be safe.
 		}
 	} )
 
+	// Render each contact, passing the contact information and a callback to update the favourited state.
 	return <div className="py-10 px-16 space-y-5">
 		{ contacts.map( ( contact, index ) => (
 			<Contact key={ index } data={ contact } onFavouriteChange={ ( isChecked ) => setIsFavourited( index, isChecked ) } />
@@ -57,4 +74,5 @@ export const Container: React.FC<ContainerAttributes> = ( { contacts, setContact
 
 		{ isLoading && <p>Fetching contacts, please wait...</p> }
 	</div>
+
 }
