@@ -1,2 +1,3 @@
-# contact-finder
-A front-end contacts application.
+# Contact Finder
+
+Technical test for Yello Studio.

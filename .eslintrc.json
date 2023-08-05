@@ -1,0 +1,46 @@
+{
+	"root": true,
+	"env": {
+		"es2020": true,
+		"browser": true
+	},
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/recommended",
+		"plugin:react-hooks/recommended"
+	],
+	"parser": "@typescript-eslint/parser",
+	"plugins": [
+		"react-refresh"
+	],
+	"rules": {
+		"indent": [
+			"error",
+			"tab"
+		],
+		"linebreak-style": [
+			"error",
+			"unix"
+		],
+		"quotes": [
+			"error",
+			"double"
+		],
+		"semi": [
+			"error",
+			"never"
+		],
+		"react-refresh/only-export-components": [
+			"warn",
+			{
+				"allowConstantExport": true
+			}
+		]
+	},
+	"ignorePatterns": [
+		"node_modules",
+		"dist",
+		"*.config.js",
+		"*.config.ts"
+	]
+}
