@@ -3,7 +3,7 @@
 import { useState } from "react"
 
 export const Filter = () => {
-	const [ contacts ] = useState( 250 )
+	const [ contacts ] = useState( 241 )
 	const [ favorites ] = useState( 12 )
 
 	return <div className="py-3 px-4 flex justify-between items-center shadow-md bg-white text-gray-400 text-sm">
