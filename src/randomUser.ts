@@ -9,12 +9,8 @@ interface RandomUserAPIResult {
 
 export interface User {
 	name: {
-		title: string
 		first: string
 		last: string
-	}
-	id: {
-		value: string
 	}
 	location: Location,
 	email: string
@@ -22,8 +18,7 @@ export interface User {
 	cell: string
 	picture: {
 		large: string
-	},
-	isFavourited: boolean
+	}
 }
 
 export interface Location {
@@ -34,7 +29,7 @@ export interface Location {
 	city: string
 	state: string
 	country: string
-	postcode: number
+	postcode: string
 }
 
 export const fetchRandomUsers = async ( count = 1, nationality = "gb" ) => {

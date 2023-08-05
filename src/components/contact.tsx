@@ -3,35 +3,38 @@
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useState } from "react"
-import { Location } from "../randomUser"
 
-interface ContactAttributes {
+export interface Contact {
 	fullName: string
 	mobileNumber: string
 	landlineNumber: string
 	emailAddress: string
-	location: Location
+	homeAddress: {
+		houseNumber: number
+		streetName: string,
+		cityName: string,
+		countryName: string,
+		postCode: string,
+	}
 	pictureUrl: string
+	isFavourited: boolean
 }
 
-export const Contact: React.FC<ContactAttributes> = ( {
-	fullName,
-	mobileNumber,
-	landlineNumber,
-	emailAddress,
-	location,
-	pictureUrl
-} ) => {
+interface ContactAttributes {
+	data: Contact
+	onFavouriteChange: ( state: boolean ) => void
+}
+
+export const Contact: React.FC<ContactAttributes> = ( { data, onFavouriteChange } ) => {
 	const [ isCollapsed, setIsCollapsed ] = useState( true )
-	const [ isFavourited, setIsFavorited ] = useState( false )
 
 	return <div className="p-5 relative shadow-md bg-white text-gray-600">
 		<div className="flex items-center">
-			<img className="w-16 h-16 rounded-full mr-4" src={ pictureUrl } alt={ fullName } />
+			<img className="w-16 h-16 rounded-full mr-4" src={ data.pictureUrl } alt={ data.fullName } />
 
 			<div>
-				<h2 className="text-xl text-slate-700">{ fullName }</h2>
-				<p className="text-sm text-slate-400">{ mobileNumber }</p>
+				<h2 className="text-xl text-slate-700">{ data.fullName }</h2>
+				<p className="text-sm text-slate-400">{ data.mobileNumber }</p>
 			</div>
 
 			<button
@@ -51,22 +54,22 @@ export const Contact: React.FC<ContactAttributes> = ( {
 					<div>
 						<p className="font-bold">Address:</p>
 						<p>
-							{ location.street.number } { location.street.name },<br />
-							{ location.city },<br />
-							{ location.country },<br />
-							{ location.postcode }
+							{ data.homeAddress.houseNumber } { data.homeAddress.streetName },<br />
+							{ data.homeAddress.cityName },<br />
+							{ data.homeAddress.countryName },<br />
+							{ data.homeAddress.postCode }
 						</p>
 					</div>
 
 					<div>
-						<p className="font-bold">Landline: <span>{ landlineNumber }</span></p>
-						<p className="font-bold">Email: <span>{ emailAddress }</span></p>
+						<p className="font-bold">Landline: <span>{ data.landlineNumber }</span></p>
+						<p className="font-bold">Email: <span>{ data.emailAddress }</span></p>
 					</div>
 				</div>
 
 				<div className="flex justify-end items-center">
 					<label htmlFor="addToFavourites" className="mr-2 font-bold text-gray-400">Add to Favourites</label>
-					<input name="addToFavourites" id="addToFavourites" className="w-5 h-5" type="checkbox" checked={ isFavourited } onChange={ ( e ) => { setIsFavorited( e.target.checked ) } } />
+					<input name="addToFavourites" id="addToFavourites" className="w-5 h-5" type="checkbox" checked={ data.isFavourited } onChange={ ( e ) => { onFavouriteChange( e.target.checked ) } } />
 				</div>
 			</div>
 		) }

@@ -1,9 +1,9 @@
 // The filter should contain the total number of contacts, and an order by drop-down.
 
-import { User } from "../randomUser"
+import { Contact } from "./contact"
 
 interface FilterAttributes {
-	contacts: User[]
+	contacts: Contact[]
 }
 
 export const Filter: React.FC<FilterAttributes> = ( { contacts } ) => {
