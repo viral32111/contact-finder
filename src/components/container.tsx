@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 
 import { fetchRandomUsers } from "../randomUser"
 import { ContactInfo } from "../contact"
@@ -25,8 +25,12 @@ interface ContainerAttributes {
  */
 export const Container: React.FC<ContainerAttributes> = ( { contacts, setContacts, orderBy, setIsFavourited } ) => {
 
-	// State for displaying a loading message while the contacts are being fetched.
+	// Number of contacts to load at a time.
+	const lazyLoadIncrementCount = 20
+
+	// State for initial loading while fetching contacts & future lazy loading contacts.
 	const [ isLoading, setIsLoading ] = useState( true )
+	const [ visibleContactsCount, setVisibleContactsCount ] = useState( Math.min( lazyLoadIncrementCount, contacts.length ) )
 
 	// Fetches random users from the API to use as contacts, after the component is rendered.
 	useEffect( () => {
@@ -66,13 +70,35 @@ export const Container: React.FC<ContainerAttributes> = ( { contacts, setContact
 		}
 	} )
 
-	// Render each contact, passing the contact information and a callback to update the favourited state.
+	// Updates state to load more contacts, ideally when the user scrolls to the bottom of the page.
+	const lazyLoadMoreContacts = useCallback( ( entries: IntersectionObserverEntry[] ) => {
+		if ( entries[ 0 ].isIntersecting ) {
+			setVisibleContactsCount( ( previousCount ) => Math.min( previousCount + lazyLoadIncrementCount, contacts.length ) )
+		}
+	}, [ contacts ] )
+
+	// Use an intersection observer to detect when the user has scrolled to the bottom of the page.
+	const lazyLoaderReference = useRef( null )
+	useEffect( () => {
+		const observer = new IntersectionObserver( lazyLoadMoreContacts, {
+			root: null,
+			rootMargin: "0px",
+			threshold: 1.0
+		} )
+
+		if ( lazyLoaderReference.current ) observer.observe( lazyLoaderReference.current )
+
+		return () => observer.disconnect()
+	}, [ lazyLoadMoreContacts ] )
+
+	// Render the visible contacts, passing the contact information & a callback to update the favourited state.
 	return <div className="py-10 px-16 space-y-5">
-		{ contacts.map( ( contact, index ) => (
+		{ contacts.slice( 0, visibleContactsCount ).map( ( contact, index ) => (
 			<Contact key={ index } data={ contact } onFavouriteChange={ ( isChecked ) => setIsFavourited( index, isChecked ) } />
 		) ) }
 
 		{ isLoading && <p>Fetching contacts, please wait...</p> }
+		{ !isLoading && visibleContactsCount < contacts.length && <div ref={ lazyLoaderReference }>Loading more contacts, please wait...</div> }
 	</div>
 
 }
