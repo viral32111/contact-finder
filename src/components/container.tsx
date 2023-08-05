@@ -4,13 +4,17 @@ import { User, fetchRandomUsers } from "../randomUser"
 
 // The container holds the contacts.
 
-export const Container = () => {
-	const [ users, setUsers ] = useState<User[]>( [] )
+interface ContainerAttributes {
+	contacts: User[]
+	setContacts: ( contacts: User[] ) => void
+}
+
+export const Container: React.FC<ContainerAttributes> = ( { contacts, setContacts } ) => {
 	const [ isLoading, setIsLoading ] = useState( true )
 
 	useEffect( () => {
 		fetchRandomUsers( 10 ).then( users => {
-			setUsers( users )
+			setContacts( users )
 		} ).catch( error => {
 			alert( "Failed to fetch random users!" )
 			console.error( "Failed to fetch random users! (%s)", error )
@@ -20,15 +24,15 @@ export const Container = () => {
 	}, [] )
 
 	return <div className="py-10 px-16 space-y-5">
-		{ users.map( ( user, index ) => (
+		{ contacts.map( ( contact, index ) => (
 			<Contact
 				key={ index }
-				fullName={ user.name.first + " " + user.name.last }
-				mobileNumber={ user.cell }
-				landlineNumber={ user.phone }
-				emailAddress={ user.email }
-				location={ user.location }
-				pictureUrl={ user.picture.large } />
+				fullName={ contact.name.first + " " + contact.name.last }
+				mobileNumber={ contact.cell }
+				landlineNumber={ contact.phone }
+				emailAddress={ contact.email }
+				location={ contact.location }
+				pictureUrl={ contact.picture.large } />
 		) ) }
 
 		{ isLoading && <p>Loading...</p> }

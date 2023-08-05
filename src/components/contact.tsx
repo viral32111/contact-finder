@@ -1,6 +1,6 @@
 // The filter should contain the total number of contacts, and an order by drop-down.
 
-import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons"
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useState } from "react"
 import { Location } from "../randomUser"

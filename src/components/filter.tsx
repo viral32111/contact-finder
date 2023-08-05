@@ -1,14 +1,15 @@
 // The filter should contain the total number of contacts, and an order by drop-down.
 
-import { useState } from "react"
+import { User } from "../randomUser"
 
-export const Filter = () => {
-	const [ contacts ] = useState( 241 )
-	const [ favorites ] = useState( 12 )
+interface FilterAttributes {
+	contacts: User[]
+}
 
+export const Filter: React.FC<FilterAttributes> = ( { contacts } ) => {
 	return <div className="py-3 px-4 flex justify-between items-center shadow-md bg-white text-gray-400 text-sm">
 		<div className="flex items-center space-x-3">
-			<p className="font-normal">{ contacts } Contacts <span>({ favorites } Favs)</span></p>
+			<p className="font-normal">{ contacts.length } Contacts <span>({ contacts.filter( contact => contact.isFavourited ).length } Favs)</span></p>
 		</div>
 
 		<div className="flex items-center space-x-3">

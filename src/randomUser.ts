@@ -22,7 +22,8 @@ export interface User {
 	cell: string
 	picture: {
 		large: string
-	}
+	},
+	isFavourited: boolean
 }
 
 export interface Location {
