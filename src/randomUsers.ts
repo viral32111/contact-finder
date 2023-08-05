@@ -44,9 +44,10 @@ export interface User {
  */
 export const fetchRandomUsers = async ( count = 1, nationality = "gb" ) => {
 
-	// Asyncronously query the API to avoid blocking renders
+	// Query the API, expecting a JSON response to avoid blocking renders
 	const apiResponse = await fetch( `https://randomuser.me/api?results=${ count }&nationality=${ nationality }&format=json`, {
 		method: "GET",
+		headers: { "Accept": "application/json" }
 	} )
 
 	// Parse the response as JSON

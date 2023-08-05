@@ -1,6 +1,5 @@
-import { OrderBy } from "../orderBy"
-
-import { ContactInfo } from "../contact"
+import { OrderBy } from "../structures/orderBy"
+import { ContactInfo } from "../structures/contact"
 
 /**
  * Attributes for the filter component.

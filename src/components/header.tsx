@@ -3,12 +3,12 @@ import { faBars } from "@fortawesome/free-solid-svg-icons"
 
 /**
  * Component for the header.
- * should contain a hamburger menu icon and page title on the left, and a profile picture on the right.
+ * Should contain a hamburger menu icon and page title on the left, and a profile picture on the right.
  */
 export const Header = () =>
 	<header className="py-2 px-4 flex justify-between items-center bg-zinc-800">
 		<div className="flex items-center space-x-3">
-			<button onClick={ () => { alert( "This would show the menu!" ) } }>
+			<button onClick={ () => { alert( "This would show the menu in a full application." ) } }>
 				<FontAwesomeIcon className="mr-3 text-white" icon={ faBars } size="xl" />
 			</button>
 

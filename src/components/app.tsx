@@ -1,7 +1,7 @@
 import { useState } from "react"
 
-import { OrderBy } from "../orderBy"
-import { ContactInfo } from "../contact"
+import { OrderBy } from "../structures/orderBy"
+import { ContactInfo } from "../structures/contact"
 
 import { Header } from "./header"
 import { Filter } from "./filter"

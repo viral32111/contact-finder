@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 
-import { fetchRandomUsers } from "../randomUser"
-import { ContactInfo } from "../contact"
+import { fetchRandomUsers } from "../randomUsers"
+import { ContactInfo } from "../structures/contact"
+import { OrderBy } from "../structures/orderBy"
 
 import { Contact } from "./contact"
-import { OrderBy } from "../orderBy"
 
 /**
  * Attributes for the container component.
