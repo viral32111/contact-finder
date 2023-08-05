@@ -13,10 +13,8 @@ import { Contact } from "./contact"
 interface ContainerAttributes {
 	contacts: ContactInfo[]
 	setContacts: ( contacts: ContactInfo[] ) => void
-
 	orderBy: OrderBy
-
-	setIsFavourited: ( index: number, state: boolean ) => void
+	setIsFavourited: ( identifier: string, state: boolean ) => void
 }
 
 /**
@@ -58,6 +56,7 @@ export const Container: React.FC<ContainerAttributes> = ( { contacts, setContact
 	useEffect( () => {
 		fetchRandomUsers( 250 ).then( users => {
 			setContacts( users.map( user => ( {
+				identifier: user.id.value,
 				fullName: `${ user.name.first } ${ user.name.last }`,
 				mobileNumber: user.cell,
 				landlineNumber: user.phone,
@@ -103,7 +102,7 @@ export const Container: React.FC<ContainerAttributes> = ( { contacts, setContact
 	// Render the visible contacts, passing the contact information & a callback to update the favourited state.
 	return <div className="py-10 px-16 space-y-5">
 		{ sortedContacts.slice( 0, visibleContactsCount ).map( ( contact, index ) => (
-			<Contact key={ index } data={ contact } onFavouriteChange={ ( isChecked ) => setIsFavourited( index, isChecked ) } />
+			<Contact key={ index } data={ contact } onFavouriteChange={ ( isChecked ) => setIsFavourited( contact.identifier, isChecked ) } />
 		) ) }
 
 		{ isLoading && <p>Fetching contacts, please wait...</p> }

@@ -17,9 +17,14 @@ export const App = () => {
 	const [ orderBy, setOrderBy ] = useState<OrderBy>( OrderBy.name )
 
 	// Helper for updating the favourited "state" of a contact.
-	const setIsFavourited = ( index: number, state: boolean ) => {
+	const setIsFavourited = ( identifier: string, state: boolean ) => {
 		const newContacts = [ ...contacts ]
-		newContacts[ index ].isFavourited = state
+
+		const contact = newContacts.find( contact => contact.identifier === identifier )
+		if ( !contact ) throw new Error( `Contact with identifier '${ identifier }' not found.` )
+
+		contact.isFavourited = state
+
 		setContacts( newContacts )
 	}
 

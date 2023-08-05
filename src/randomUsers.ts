@@ -1,5 +1,5 @@
 /**
- * Struture of the JSON response from the Random Users API.
+ * Struture of the JSON response from the Random User API.
  * https://randomuser.me/documentation
  */
 interface RandomUserAPIResult {
@@ -10,13 +10,16 @@ interface RandomUserAPIResult {
 }
 
 /**
- * Structure of the users within the Random Users API response.
+ * Structure of the users within the Random User API response.
  * This is in a separate interface to allow other parts of the app to use it without having the whole API response.
  */
 export interface User {
 	name: {
 		first: string
 		last: string
+	}
+	id: {
+		value: string
 	}
 	location: {
 		street: {
@@ -37,7 +40,7 @@ export interface User {
 }
 
 /**
- * Fetches a given number of random users from the Random Users API (https://randomuser.me).
+ * Fetches a given number of random users from the Random User API (https://randomuser.me).
  * @param count The number of users to fetch.
  * @param nationality The country code to only fetch users of a nationality.
  * @returns An array of users.

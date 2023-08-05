@@ -3,6 +3,7 @@
  * This is a glorified version of what the Random Users API returns, but with an is favourited property.
  */
 export interface ContactInfo {
+	identifier: string
 	fullName: string
 	mobileNumber: string
 	landlineNumber: string
