@@ -29,16 +29,7 @@ export const Container: React.FC<ContainerAttributes> = ( { contacts, setContact
 	// State for initial loading while fetching contacts & future lazy loading contacts.
 	const [ isLoading, setIsLoading ] = useState( true )
 
-	// Sorts the contacts (in a new array) based on the selected ordering.
-	// Name is alphabetical (A to Z) while mobile number is numerical (0 to 9).
 	const [ sortedContacts, setSortedContacts ] = useState<ContactInfo[]>( [] )
-	const sortContacts = ( contacts: ContactInfo[] ) => [ ...contacts ].sort( ( a, b ) => {
-		switch ( orderBy ) {
-			case OrderBy.name: return a.fullName.localeCompare( b.fullName )
-			case OrderBy.mobileNumber: return parseInt( a.mobileNumber ) - parseInt( b.mobileNumber ) // Numbers are stored as strings to preserve leading zeros, so conversion is required.
-			default: return 0 // New options may be added in the future that we haven't accounted for, so we'll just return 0 (retain original ordering) to be safe.
-		}
-	} )
 
 	// Updates state to load more contacts, ideally when the user scrolls to the bottom of the page.
 	const [ visibleContactsCount, setVisibleContactsCount ] = useState( Math.min( lazyLoadIncrementCount, contacts.length ) )
@@ -83,6 +74,16 @@ export const Container: React.FC<ContainerAttributes> = ( { contacts, setContact
 
 	// Sort the contacts after they are initially fetched & when the ordering is changed.
 	useEffect( () => {
+		// Sorts the contacts (in a new array) based on the selected ordering.
+		// Name is alphabetical (A to Z) while mobile number is numerical (0 to 9).
+		const sortContacts = ( contacts: ContactInfo[] ) => [ ...contacts ].sort( ( a, b ) => {
+			switch ( orderBy ) {
+				case OrderBy.name: return a.fullName.localeCompare( b.fullName )
+				case OrderBy.mobileNumber: return parseInt( a.mobileNumber ) - parseInt( b.mobileNumber ) // Numbers are stored as strings to preserve leading zeros, so conversion is required.
+				default: return 0 // New options may be added in the future that we haven't accounted for, so we'll just return 0 (retain original ordering) to be safe.
+			}
+		} )
+
 		setSortedContacts( sortContacts( contacts ) )
 	}, [ contacts, orderBy ] )
 
