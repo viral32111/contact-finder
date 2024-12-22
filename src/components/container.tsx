@@ -50,7 +50,7 @@ export const Container: React.FC<ContainerAttributes> = ( { contacts, setContact
 				identifier: user.id.value,
 				fullName: `${ user.name.first } ${ user.name.last }`,
 				mobileNumber: user.cell,
-				landlineNumber: user.phone,
+				landlineNumber: user.phone.replace( / /g, "" ).match( /(\d{5})(\d{6})/ )?.slice(1).join(" ").padEnd(11, "0") ?? user.phone,
 				emailAddress: user.email,
 				homeAddress: {
 					houseNumber: user.location.street.number,
