@@ -28,6 +28,9 @@ jobs:
         with:
           node-version: 23
 
+      - name: Setup Yarn
+        run: corepack enable
+
       - name: Install dependencies
         run: yarn install
 
