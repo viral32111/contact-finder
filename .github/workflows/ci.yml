@@ -16,7 +16,7 @@ env:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
@@ -26,13 +26,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 23
 
       - name: Install dependencies
-        run: npm install
+        run: yarn install
 
       - name: Build project
-        run: npm run build
+        run: yarn build
 
       - name: Validate HTML
         uses: Cyb3r-Jak3/html5validator-action@v7.2.0
@@ -47,11 +47,11 @@ jobs:
           path: |
             dist
             package.json
-            package-lock.json
+            yarn.lock
 
   deploy-github:
     name: Deploy to GitHub Pages
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
     needs: build
     environment:
