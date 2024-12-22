@@ -17,12 +17,14 @@
 
 		<!-- Disable indexing -->
 		<meta name="robots" content="noindex, nofollow, noarchive">
+
+		<!-- Vite will add production imports here -->
 	</head>
 	<body>
 		<!-- Root element for React -->
 		<div id="root"></div>
 
-		<!-- Load the main script to render the application -->
+		<!-- This is removed in production builds -->
 		<script src="/src/main.tsx" type="module"></script>
 	</body>
 </html>
